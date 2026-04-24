@@ -26,9 +26,22 @@ async function getData(link: string) : Promise<User[]> {
     return users;
 }
 
-const list = await getData(link);
-console.log(list)
+try {
+    const userList = await getData(link);
+    console.log(userList)
+    loginButton.addEventListener("click", () => {
+
+    });
+    signupButton.addEventListener("click", () => {
+        
+    });
+}
+catch (e: any) {
+    console.error(e.message);
+}
+
+
 
 document.addEventListener("DOMContentLoaded", ()=> {
-    document.getElementById("BefizetesBtn")?.addEventListener("click", ()=)
+    // document.getElementById("BefizetesBtn")?.addEventListener("click", ()=)
 })
