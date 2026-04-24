@@ -13,8 +13,55 @@
             <p>placeholder</p>
             <button class="btn btn-primary">Belépés</button>
         </nav>
-    </div>
-    <script src="./src/main.ts" type="module"></script>
+
+        <br>
+        <!--BEFIZETÉS-->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#BefizetesModal">Befizetés</button>
+
+        <div class="modal" id="BefizetesModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pénz befizetése</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Minimum feltöltés összege: 5.000 Ft
+                        <!--OPCIÓK-->
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>
+                            <label class="form-check-label" for="radio1">5.000 Ft</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">
+                            <label class="form-check-label" for="radio2">7.500 Ft</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio3" name="optradio" value="option3">
+                            <label class="form-check-label" for="radio3">10.000 Ft</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio4" name="optradio" value="option4">
+                            <label class="form-check-label" for="radio4">15.000 Ft</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio5" name="optradio" value="option5">
+                            <label class="form-check-label" for="radio5">20.000 Ft</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio6" name="optradio" value="option6">
+                            <label class="form-check-label" for="radio6">50.000 Ft</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="BefizetesBtn" type="button" class="btn btn-success" data-bs-dismiss="modal">Fizetés</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script src="./src/main.ts" type="module"></script>
 </body>
 
 </html>

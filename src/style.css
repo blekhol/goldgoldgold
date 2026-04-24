@@ -3,3 +3,7 @@ nav {
         float: right;
     }
 }
+
+#BefizetesModal {
+    display: none;
+}
