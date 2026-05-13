@@ -7,15 +7,20 @@ interface User {
     password: string;
     balance: number;
 }
+interface FormValues {
+    username: string;
+    password: string;
+    [k:string]: FormDataEntryValue;
+}
 
 const link = "https://retoolapi.dev/U2ra8a/data";
-let userList = [];
+let userList: User[] = [];
 let currentUser;
 
 const loginButton = document.getElementById("login") as HTMLButtonElement;
 const signupButton = document.getElementById("signup") as HTMLButtonElement;
 
-async function getData(link: string) : Promise<User[]> {
+async function getData(link: string): Promise<User[]> {
     let users: User[] = [];
     const response = await fetch(link);
     if (!response.ok) {
@@ -23,7 +28,7 @@ async function getData(link: string) : Promise<User[]> {
     }
     const data = await response.json();
     for (const element of data) {
-        users.push({username: element.username, password: element.password, balance: element.balance})
+        users.push({ username: element.username, password: element.password, balance: element.balance })
     }
     return users;
 }
@@ -37,13 +42,54 @@ catch (e: any) {
 }
 
 loginButton.addEventListener("click", () => {
-
+    if (loginButton.textContent == "Kilépés") {
+        currentUser = null;
+        document.getElementById("userInfo")!.textContent = "Jelentkezz be!";
+        signupButton.classList.remove("hide");
+        document.getElementById("loginSuccess")!.textContent = "Sikeres kijelentkezés";
+        loginButton.textContent = "Belépés";
+    }
+    document.getElementById("loginTitle")!.textContent = "Belépés";
+    document.getElementById("loginButton")!.textContent = "Belépés";
 });
 signupButton.addEventListener("click", () => {
-        
+    document.getElementById("loginTitle")!.textContent = "Regisztráció";
+    document.getElementById("loginButton")!.textContent = "Regisztráció";
 });
 
+document.querySelector("form")?.addEventListener("submit", (e: SubmitEvent) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    if (document.getElementById("loginTitle")!.textContent == "Belépés") {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries()) as FormValues;
+        console.log('Form submitted with:', data);
+        for (const user of userList) {
+            if (user.username == data.username && user.password == data.password) {
+                currentUser = user;
+                document.getElementById("loginSuccess")!.textContent = "Sikeres bejelentkezés";
+                document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Kr`
+                signupButton.classList.add("hide");
+                loginButton.textContent = "Kilépés";
+            }
+            else {
+                document.getElementById("loginReturn")!.textContent = "Sikertelen bejelentkezés";
+            }
+        }
+    }
+})
+document.querySelector("input")?.addEventListener("invalid", () => {
+    document.getElementById("loginReturn")!.textContent = "Nem lehet túl rövid vagy üres egyik adatod sem!";
+})
+document.getElementById("loginClose")?.addEventListener("click", () => {
+    document.getElementById("loginReturn")!.textContent = "";
+    document.getElementById("loginSuccess")!.textContent = "";
+    const un = document.getElementById("username") as HTMLInputElement;
+    const pw = document.getElementById("password") as HTMLInputElement;
+    un.value = "";
+    pw.value = "";
+})
 
-document.addEventListener("DOMContentLoaded", ()=> {
+document.addEventListener("DOMContentLoaded", () => {
     // document.getElementById("BefizetesBtn")?.addEventListener("click", ()=)
 })

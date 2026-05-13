@@ -4,6 +4,21 @@ nav {
     }
 }
 
+#loginReturn {
+    color: red;
+    font-style: italic;
+}
+
+#loginSuccess
+{
+    color: green;
+    font-weight: bold;
+}
+
 #BefizetesModal {
+    display: none;
+}
+
+.hide {
     display: none;
 }

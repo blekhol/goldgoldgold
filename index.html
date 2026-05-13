@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <!--navbar-->
     <nav class="navbar navbar-expand-sm bg-light ">
         <div class="container-fluid">
             <a href="index.html" class="navbar-brand">Placeholder</a>
@@ -22,11 +23,11 @@
 
         </div>
     </nav>
-
+    <!--login-->
     <div class="offcanvas offcanvas-start" id="loginPage">
         <div class="offcanvas-header">
             <h1 class="offcanvas-title" id="loginTitle">Belépés</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" id="loginClose"></button>
         </div>
         <div class="offcanvas-body">
             <form>
@@ -36,10 +37,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
-                    <input type="text" name="password" id="password" class="form-control" required minlength="5"> 
+                    <input type="password" name="password" id="password" class="form-control" required minlength="5"> 
                 </div>
-                <button class="btn btn-secondary" type="submit">Belépés</button>
                 <div class="form-text" id="loginReturn"></div>
+                <div class="form text" id="loginSuccess"></div>
+                <button class="btn btn-secondary" id="loginButton" type="submit">Belépés</button>    
             </form>
         </div>
     </div>
