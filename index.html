@@ -15,11 +15,35 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mynavbar">
-                <button class="btn btn-primary me-2" id="login">Belépés</button>
-                <button class="btn btn-primary" id="signup">Regisztráció</button>
+                <button class="btn btn-primary me-2" id="login" data-bs-toggle="offcanvas" data-bs-target="#loginPage">Belépés</button>
+                <button class="btn btn-primary" id="signup" data-bs-toggle="offcanvas" data-bs-target="#loginPage">Regisztráció</button>
+                <span class="navbar-text" id="userInfo">Jelentkezz be!</span>
             </div>
+
         </div>
     </nav>
+
+    <div class="offcanvas offcanvas-start" id="loginPage">
+        <div class="offcanvas-header">
+            <h1 class="offcanvas-title" id="loginTitle">Belépés</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Felhasználónév</label>
+                    <input type="text" name="username" id="username" class="form-control" required minlength="3"> 
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Jelszó</label>
+                    <input type="text" name="password" id="password" class="form-control" required minlength="5"> 
+                </div>
+                <button class="btn btn-secondary" type="submit">Belépés</button>
+                <div class="form-text" id="loginReturn"></div>
+            </form>
+        </div>
+    </div>
+
     <div class="container">
 
         <br>
@@ -27,7 +51,7 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
             data-bs-target="#BefizetesModal">Befizetés</button>
 
-        <div class="modal" id="BefizetesModal">
+        <div class="modal fade" id="BefizetesModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -38,7 +62,8 @@
                         Minimum feltöltés összege: 5.000 Ft
                         <!--OPCIÓK-->
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>
+                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1"
+                                checked>
                             <label class="form-check-label" for="radio1">5.000 Ft</label>
                         </div>
                         <div class="form-check">
@@ -63,7 +88,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="BefizetesBtn" type="button" class="btn btn-success" data-bs-dismiss="modal">Fizetés</button>
+                        <button id="BefizetesBtn" type="button" class="btn btn-success"
+                            data-bs-dismiss="modal">Fizetés</button>
                     </div>
 
                 </div>

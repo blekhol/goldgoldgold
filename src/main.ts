@@ -9,6 +9,8 @@ interface User {
 }
 
 const link = "https://retoolapi.dev/U2ra8a/data";
+let userList = [];
+let currentUser;
 
 const loginButton = document.getElementById("login") as HTMLButtonElement;
 const signupButton = document.getElementById("signup") as HTMLButtonElement;
@@ -27,19 +29,19 @@ async function getData(link: string) : Promise<User[]> {
 }
 
 try {
-    const userList = await getData(link);
+    userList = await getData(link);
     console.log(userList)
-    loginButton.addEventListener("click", () => {
-
-    });
-    signupButton.addEventListener("click", () => {
-        
-    });
 }
 catch (e: any) {
     console.error(e.message);
 }
 
+loginButton.addEventListener("click", () => {
+
+});
+signupButton.addEventListener("click", () => {
+        
+});
 
 
 document.addEventListener("DOMContentLoaded", ()=> {
