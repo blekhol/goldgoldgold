@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import './style.css';
+import { parseAst } from 'vite';
 
 interface User {
     username: string;
@@ -10,7 +11,7 @@ interface User {
 interface FormValues {
     username: string;
     password: string;
-    [k:string]: FormDataEntryValue;
+    [k: string]: FormDataEntryValue;
 }
 
 const link = "https://retoolapi.dev/U2ra8a/data";
@@ -57,23 +58,49 @@ signupButton.addEventListener("click", () => {
     document.getElementById("loginButton")!.textContent = "Regisztráció";
 });
 
-document.querySelector("form")?.addEventListener("submit", (e: SubmitEvent) => {
+document.querySelector("form")?.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries()) as FormValues;
+    console.log('Form submitted with:', data);
     if (document.getElementById("loginTitle")!.textContent == "Belépés") {
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries()) as FormValues;
-        console.log('Form submitted with:', data);
         for (const user of userList) {
             if (user.username == data.username && user.password == data.password) {
                 currentUser = user;
+                document.getElementById("loginReturn")!.textContent = "";
                 document.getElementById("loginSuccess")!.textContent = "Sikeres bejelentkezés";
-                document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Kr`
+                document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`
                 signupButton.classList.add("hide");
                 loginButton.textContent = "Kilépés";
             }
             else {
                 document.getElementById("loginReturn")!.textContent = "Sikertelen bejelentkezés";
+            }
+        }
+    }
+    else {
+        let canSignUp = true;
+        for (const user of userList) {
+            if (user.username == data.username) {
+                document.getElementById("loginReturn")!.textContent = "Ilyen felhasználó már létezik!";
+                canSignUp = false;
+            }
+        }
+        if (canSignUp) {
+            try {
+                const response = await fetch(link, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ username: data.username, password: data.password, balance: 0 })
+                });
+                const result = await response.json();
+                console.log("Success: ", result)
+            }
+            catch (e: any) {
+                console.error("Error: ", e)
             }
         }
     }
