@@ -11,7 +11,8 @@
     <!--navbar-->
     <nav class="navbar navbar-expand-sm bg-light ">
         <div class="container-fluid">
-            <a href="index.html" class="navbar-brand"><img style="height: 128px; width: 128px;" src="./src/Images/Maxwin.png" alt=""></a>
+            <a href="index.html" class="navbar-brand"><img style="height: 128px; width: 128px;"
+                    src="./src/Images/Maxwin.png" alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -24,6 +25,7 @@
             </div>
         </div>
     </nav>
+
     <!--login-->
     <div class="offcanvas offcanvas-start" id="loginPage">
         <div class="offcanvas-header">
@@ -47,109 +49,168 @@
         </div>
     </div>
 
-
-
-    <div class="container">
+    <!-- Main Game Lobby -->
+    <div class="container mt-4">
         <div class="alert alert-danger hide" id="balanceAlert">
             <strong>Alacsony pénzkeret!</strong> Tölts fel pénzösszeget hogy játszhass!
         </div>
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
             data-bs-target="#BefizetesModal">Befizetés</button>
-        <div class="row">
+
+        <div class="row g-4">
+            <!-- Blackjack Card Column -->
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <button type="button" class="btn text-white shadow" data-bs-toggle="modal" id="BlackjackButton"
+                <button type="button" class="btn text-white shadow" id="BlackjackButton" data-bs-toggle="modal"
                     data-bs-target="#BlackjackModal"
-                    style="background: url('./src/Images/bjbtn.png') center/cover no-repeat; font-size: 100px; width:671px; height: 443px;">
+                    style="background: url('./src/Images/bjbtn.png') center/cover no-repeat; font-size: 100px; width: 100%; max-width:671px; height: 443px;">
                     BLACKJACK
                 </button>
             </div>
+
+            <!-- Dynamic Case Multi-Simulator Lobby Container -->
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <button type="button" class="btn text-black shadow" id="CaseSimButton"
-                    style="background: url('./src/Images/weaponcase.png') center/cover no-repeat; font-size: 100px; width:671px; height: 443px;">
-                    CASE SIMULATOR
-                </button>
-            </div>
-        </div>
-
-        <br>
-
-
-        <div class="modal fade" id="BlackjackModal">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Blackjack</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="justify-content-center" id="bjFormDiv">
-                            <form id="bjForm">
-                                <label for="bjBet" class="form-label">Mennyit teszel fel? <span id="rangeValue">100 Ft</span></label>
-                                <input type="range" name="bjBet" id="bjBet" min="100" value="100" class="form-range">
-                                <button class="btn btn-primary" type="submit" id="bjBetButton">Start!</button>
-                            </form>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-start gap-4">
-                            <div class="rounded shadow-sm">
-                                <canvas id="bjCanvas" width="600" height="600"></canvas>
-                            </div>
-                            <div class="d-flex flex-column gap-2" style="min-width: 160px;">
-                                <h6 class="text-muted mb-2">Választásaid</h6>
-                                <button type="button" id="bjHit" class="btn btn-primary w-100" disabled>Kérj lapot</button>
-                                <button type="button" id="bjSplit" class="btn btn-secondary w-100" disabled>Split</button>
-                                <button type="button" id="bjDouble" class="btn btn-success w-100" disabled>Double down</button>
-                                <button type="button" id="bjPass" class="btn btn-outline-danger w-100" disabled>Passz</button>
-                                <p id="bjPBet"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="modal fade" id="BefizetesModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Pénz befizetése</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        Minimum feltöltés összege: 5.000 Ft
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio1" name="befizetesOsszegek" value="5000" checked>
-                            <label class="form-check-label" for="radio1">5.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio2" name="befizetesOsszegek" value="7500">
-                            <label class="form-check-label" for="radio2">7.500 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio3" name="befizetesOsszegek" value="10000">
-                            <label class="form-check-label" for="radio3">10.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio4" name="befizetesOsszegek" value="15000">
-                            <label class="form-check-label" for="radio4">15.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio5" name="befizetesOsszegek" value="20000">
-                            <label class="form-check-label" for="radio5">20.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio6" name="befizetesOsszegek" value="50000">
-                            <label class="form-check-label" for="radio6">50.000 Ft</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="BefizetesBtn" type="button" class="btn btn-success" data-bs-dismiss="modal">Fizetés</button>
+                <div class="card bg-dark text-white p-3 shadow h-100">
+                    <h3 class="text-center mb-3">LÁDA SIMULATOR</h3>
+                    <div id="caseLobbyGrid" class="row row-cols-1 row-cols-sm-3 g-2">
+                        <!-- Rendered and appended dynamically from AVAILABLE_CASES via TS -->
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="./src/main.ts" type="module"></script>
+    <!-- Blackjack Modal -->
+    <div class="modal fade" id="BlackjackModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Blackjack</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="justify-content-center">
+                        <form id="bjForm">
+                            <label for="bjBet" class="form-label">Mennyit teszel fel? <span id="rangeValue">100
+                                    Ft</span></label>
+                            <input type="range" name="bjBet" id="bjBet" min="100" value="100" class="form-range">
+                            <button class="btn btn-primary mb-3" type="submit" id="bjBetButton">Start!</button>
+                        </form>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-start gap-4 flex-wrap">
+                        <div class="rounded shadow-sm overflow-hidden">
+                            <canvas id="myCanvas" width="600" height="600" class="border"></canvas>
+                        </div>
+                        <div class="d-flex flex-column gap-2" style="min-width: 160px;">
+                            <h6 class="text-muted mb-2">Választásaid</h6>
+                            <button type="button" id="bjHit" class="btn btn-primary w-100">Kérj lapot</button>
+                            <button type="button" id="bjSplit" class="btn btn-secondary w-100">Split</button>
+                            <button type="button" id="bjDouble" class="btn btn-success w-100">Double down</button>
+                            <button type="button" id="bjPass" class="btn btn-outline-danger w-100">Passz</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Befizetes Modal -->
+    <div class="modal fade" id="BefizetesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Pénz befizetése</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Minimum feltöltés összege: 5.000 Ft
+                    <div class="form-check mt-2">
+                        <input type="radio" class="form-check-input" id="radio1" name="befizetesOsszegek" value="5000"
+                            checked>
+                        <label class="form-check-label" for="radio1">5.000 Ft</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="radio2" name="befizetesOsszegek" value="7500">
+                        <label class="form-check-label" for="radio2">7.500 Ft</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="radio3" name="befizetesOsszegek" value="10000">
+                        <label class="form-check-label" for="radio3">10.000 Ft</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="radio4" name="befizetesOsszegek" value="15000">
+                        <label class="form-check-label" for="radio4">15.000 Ft</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="radio5" name="befizetesOsszegek" value="20000">
+                        <label class="form-check-label" for="radio5">20.000 Ft</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" id="radio6" name="befizetesOsszegek" value="50000">
+                        <label class="form-check-label" for="radio6">50.000 Ft</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="BefizetesBtn" type="button" class="btn btn-success"
+                        data-bs-dismiss="modal">Fizetés</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Case Opening Modal Structure -->
+    <div class="modal fade" id="CaseModal" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header border-secondary">
+                    <h4 class="modal-title" id="modalCaseName">Láda Nyitás 📦</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        id="caseBezaras"></button>
+                </div>
+                <div class="modal-body text-center position-relative overflow-hidden">
+                    <!-- 🌟 NEW: Full-screen Big Winner Item Reveal Overlay -->
+                    <div id="bigPreviewOverlay">
+                        <div id="bigPreviewCard" class="big-preview-card text-center">
+                            <h2 class="text-uppercase fw-bold mb-1" id="bigWinRarityText">KAPTAD!</h2>
+                            <h4 id="bigWinItemName" class="mb-4 text-white">Item Name</h4>
+                            <div class="my-3">
+                                <img id="bigWinItemImage" src="" alt="Winner item image">
+                            </div>
+                            <p class="text-muted small mt-3 mb-0">Kattints bárhova a bezáráshoz</p>
+                        </div>
+                    </div>
+
+                    <!-- Rest of your existing modal body contents -->
+                    <p class="fs-5">Ár: <span id="modalCasePrice" class="text-warning fw-bold">0</span> Ft | Próbáld ki
+                        a szerencséd!</p>
+
+                    <!-- ROULETTE CONTAINER -->
+                    <div class="roulette-wrapper position-relative my-4 mx-auto border border-secondary rounded overflow-hidden bg-black"
+                        style="width: 100%; max-width: 700px; height: 130px;">
+                        <div class="selector-line position-absolute top-0 bottom-0 bg-danger"
+                            style="width: 3px; left: 50%; transform: translateX(-50%); z-index: 10; box-shadow: 0 0 10px red;">
+                        </div>
+                        <div id="caseTrack" class="d-flex position-absolute top-0 bottom-0 left-0"
+                            style="transition: transform 5s cubic-bezier(0.1, 0.85, 0.25, 1); will-change: transform;">
+                        </div>
+                    </div>
+
+                    <button id="caseRollBtn" class="btn btn-warning btn-lg px-5 mb-4">LÁDA NYÍTÁSA</button>
+
+                    <hr class="border-secondary">
+
+                    <h5>A láda tartalma:</h5>
+                    <div id="modalDropList" class="d-flex flex-wrap justify-content-center gap-3 p-2"></div>
+                </div>
+                <div class="modal-footer border-secondary justify-content-center">
+                    <h5 id="caseEredmeny" class="fw-bold"></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./src/main.ts" type="module"></script>
 </body>
 
 </html>
