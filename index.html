@@ -50,6 +50,9 @@
 
 
     <div class="container">
+        <div class="alert alert-danger hide" id="balanceAlert">
+            <strong>Alacsony pénzkeret!</strong> Tölts fel pénzösszeget hogy játszhass!
+        </div>
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
             data-bs-target="#BefizetesModal">Befizetés</button>
         <div class="row">
@@ -79,7 +82,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="justify-content-center">
+                        <div class="justify-content-center" id="bjFormDiv">
                             <form id="bjForm">
                                 <label for="bjBet" class="form-label">Mennyit teszel fel? <span id="rangeValue">100 Ft</span></label>
                                 <input type="range" name="bjBet" id="bjBet" min="100" value="100" class="form-range">
@@ -88,14 +91,15 @@
                         </div>
                         <div class="d-flex justify-content-center align-items-start gap-4">
                             <div class="rounded shadow-sm">
-                                <canvas id="myCanvas" width="600" height="600"></canvas>
+                                <canvas id="bjCanvas" width="600" height="600"></canvas>
                             </div>
                             <div class="d-flex flex-column gap-2" style="min-width: 160px;">
                                 <h6 class="text-muted mb-2">Választásaid</h6>
-                                <button type="button" id="bjHit" class="btn btn-primary w-100">Kérj lapot</button>
-                                <button type="button" id="bjSplit" class="btn btn-secondary w-100">Split</button>
-                                <button type="button" id="bjDouble" class="btn btn-success w-100">Double down</button>
-                                <button type="button" id="bjPass" class="btn btn-outline-danger w-100">Passz</button>
+                                <button type="button" id="bjHit" class="btn btn-primary w-100" disabled>Kérj lapot</button>
+                                <button type="button" id="bjSplit" class="btn btn-secondary w-100" disabled>Split</button>
+                                <button type="button" id="bjDouble" class="btn btn-success w-100" disabled>Double down</button>
+                                <button type="button" id="bjPass" class="btn btn-outline-danger w-100" disabled>Passz</button>
+                                <p id="bjPBet"></p>
                             </div>
                         </div>
                     </div>

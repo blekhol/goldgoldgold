@@ -58,5 +58,5 @@ export function generateCard(cardList: Card[], genList: string[]) {
         default: break;
     }
     let newCard = new Card(`./Images/${name}.svg`, bj_value, poker_value, face, name);
-    cardList.push(newCard);
+    return newCard;
 }

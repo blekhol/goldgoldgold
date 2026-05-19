@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as bootstrap from 'bootstrap';
 import './style.css';
 import { type User, type FormValues } from './types.ts';
+import { blackjackGame } from './Blackjack.ts';
 
 const link = "https://retoolapi.dev/U2ra8a/data";
 let userList: User[] = [];
@@ -13,6 +14,7 @@ const csButton = document.getElementById("CaseSimButton") as HTMLButtonElement;
 const usernameInput = document.getElementById("username") as HTMLInputElement;
 const passwordInput = document.getElementById("password") as HTMLInputElement;
 const bjBetInput = document.getElementById("bjBet") as HTMLInputElement;
+const betValue = document.getElementById("rangeValue") as HTMLSpanElement;
 const loginPage = document.getElementById("loginPage") as HTMLDivElement;
 const offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(loginPage) as bootstrap.Offcanvas;
 const loginTitle = document.getElementById("loginTitle") as HTMLHeadingElement;
@@ -20,6 +22,7 @@ const submitButton = document.getElementById("loginButton") as HTMLButtonElement
 const loginError = document.getElementById("loginReturn") as HTMLDivElement;
 const loginSuccess = document.getElementById("loginSuccess") as HTMLDivElement;
 const userInfo = document.getElementById("userInfo") as HTMLSpanElement;
+const balanceAlert = document.getElementById("balanceAlert") as HTMLDivElement;
 
 function userLoggedInCheckForGames() {
     if (!currentUser) {
@@ -88,6 +91,8 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e: Submi
             passwordInput.value = "";
             userInfo.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
             userLoggedInCheckForGames();
+            lowBalanceAlertCheck();
+            bjBetInput.max = currentUser.balance.toString();
             offcanvasInstance.hide();
             signupButton.classList.add("hide");
             loginButton.textContent = "Kilépés";
@@ -137,6 +142,29 @@ document.getElementById("loginClose")?.addEventListener("click", () => {
     passwordInput.value = "";
 })
 
+bjBetInput.addEventListener("input", () => {
+    betValue.textContent = bjBetInput.value + " Ft";
+})
+function lowBalanceAlertCheck() {
+    if (!currentUser) {
+        balanceAlert.classList.add("hide")
+    }
+    else if (currentUser.balance < 100) {
+        balanceAlert.classList.remove("hide")
+    }
+    else {
+        balanceAlert.classList.add("hide")
+    }
+}
+document.getElementById("bjForm")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const bet = bjBetInput.value;
+    console.log(bet);
+    if (currentUser) {
+        blackjackGame(bet, currentUser);
+    }
+})
+
 document.getElementById("BefizetesBtn")?.addEventListener("click", BefizetesBtnPress);
 
 function BefizetesBtnPress() {
@@ -182,8 +210,9 @@ async function Befizetes(amount: number) {
 
         currentUser.balance = updatedBalance;
         
-        document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
-        
+        userInfo.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
+        lowBalanceAlertCheck();
+        bjBetInput.max = currentUser.balance.toString();
         userList = await getData(link);
 
     } catch (error) {
