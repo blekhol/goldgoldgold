@@ -16,8 +16,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mynavbar">
-                <button class="btn btn-primary me-2" id="login" data-bs-toggle="offcanvas" data-bs-target="#loginPage">Belépés</button>
-                <button class="btn btn-primary" id="signup" data-bs-toggle="offcanvas" data-bs-target="#loginPage">Regisztráció</button>
+                <button class="btn btn-primary me-2" id="login" data-bs-toggle="offcanvas"
+                    data-bs-target="#loginPage">Belépés</button>
+                <button class="btn btn-primary" id="signup" data-bs-toggle="offcanvas"
+                    data-bs-target="#loginPage">Regisztráció</button>
                 <span class="navbar-text" id="userInfo">Jelentkezz be!</span>
             </div>
 
@@ -30,23 +32,38 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" id="loginClose"></button>
         </div>
         <div class="offcanvas-body">
-            <form>
+            <form id="loginForm">
                 <div class="mb-3">
                     <label for="username" class="form-label">Felhasználónév</label>
-                    <input type="text" name="username" id="username" class="form-control" required minlength="3"> 
+                    <input type="text" name="username" id="username" class="form-control" required minlength="3">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
-                    <input type="password" name="password" id="password" class="form-control" required minlength="5"> 
+                    <input type="password" name="password" id="password" class="form-control" required minlength="5">
                 </div>
                 <div class="form-text" id="loginReturn"></div>
                 <div class="form text" id="loginSuccess"></div>
-                <button class="btn btn-secondary" id="loginButton" type="submit">Belépés</button>    
+                <button class="btn btn-secondary" id="loginButton" type="submit">Belépés</button>
             </form>
         </div>
     </div>
 
     <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <button type="button" class="btn text-white shadow" data-bs-toggle="modal"
+                    data-bs-target="#BlackjackModal"
+                    style="background: url('./src/Images/bjbtn.png') center/cover no-repeat; font-size: 100px; width:671px; height: 443px;">
+                    BLACKJACK
+                </button>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <button type="button" class="btn text-black shadow"
+                    style="background: url('./src/Images/weaponcase.png') center/cover no-repeat; font-size: 100px; width:671px; height: 443px;">
+                    CASE SIMULATOR
+                </button>
+            </div>
+        </div>
 
         <br>
         <!--BEFIZETÉS-->
@@ -98,8 +115,38 @@
             </div>
         </div>
 
-    </div>
-    <script src="./src/main.ts" type="module"></script>
+        <div class="modal fade" id="BlackjackModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Blackjack</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="justify-content-center">
+                            <form id="bjForm">
+                                <label for="bjBet" class="form-label">Mennyit teszel fel? <span id="rangeValue">100 Ft</span></label>
+                                <input type="range" name="bjBet" id="bjBet" min="100" value="100" class="form-range">
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-start gap-4">
+                            <div class="rounded shadow-sm">
+                                <canvas id="myCanvas" width="600" height="600"></canvas>
+                            </div>
+                            <div class="d-flex flex-column gap-2" style="min-width: 160px;">
+                                <h6 class="text-muted mb-2">Választásaid</h6>
+                                <button type="button" id="bjHit" class="btn btn-primary w-100">Kérj lapot</button>
+                                <button type="button" id="bjSplit" class="btn btn-secondary w-100">Split</button>
+                                <button type="button" id="bjDouble" class="btn btn-success w-100">Double down</button>
+                                <button type="button" id="bjPass" class="btn btn-outline-danger w-100">Passz</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script src="./src/main.ts" type="module"></script>
 </body>
 
 </html>

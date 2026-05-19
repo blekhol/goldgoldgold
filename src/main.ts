@@ -47,7 +47,7 @@ signupButton.addEventListener("click", () => {
     document.getElementById("loginButton")!.textContent = "Regisztráció";
 });
 
-document.querySelector("form")?.addEventListener("submit", async (e: SubmitEvent) => {
+document.getElementById("loginForm")?.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
