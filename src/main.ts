@@ -1,17 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import './style.css';
-
-interface User {
-    username: string;
-    password: string;
-    balance: number;
-}
-interface FormValues {
-    username: string;
-    password: string;
-    [k: string]: FormDataEntryValue;
-}
+import { type User, type FormValues } from './types.ts';
 
 const link = "https://retoolapi.dev/U2ra8a/data";
 let userList: User[] = [];
