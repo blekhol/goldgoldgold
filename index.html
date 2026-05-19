@@ -51,14 +51,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <button type="button" class="btn text-white shadow" data-bs-toggle="modal"
+                <button type="button" class="btn text-white shadow" data-bs-toggle="modal" id="BlackjackButton"
                     data-bs-target="#BlackjackModal"
                     style="background: url('./src/Images/bjbtn.png') center/cover no-repeat; font-size: 100px; width:671px; height: 443px;">
                     BLACKJACK
                 </button>
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <button type="button" class="btn text-black shadow"
+                <button type="button" class="btn text-black shadow" id="CaseSimButton"
                     style="background: url('./src/Images/weaponcase.png') center/cover no-repeat; font-size: 100px; width:671px; height: 443px;">
                     CASE SIMULATOR
                 </button>
@@ -127,6 +127,7 @@
                             <form id="bjForm">
                                 <label for="bjBet" class="form-label">Mennyit teszel fel? <span id="rangeValue">100 Ft</span></label>
                                 <input type="range" name="bjBet" id="bjBet" min="100" value="100" class="form-range">
+                                <button class="btn btn-primary" type="submit" id="bjBetButton">Start!</button>
                             </form>
                         </div>
                         <div class="d-flex justify-content-center align-items-start gap-4">

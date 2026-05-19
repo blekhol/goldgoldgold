@@ -1,14 +1,38 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
+import * as bootstrap from 'bootstrap';
 import './style.css';
 import { type User, type FormValues } from './types.ts';
 
 const link = "https://retoolapi.dev/U2ra8a/data";
 let userList: User[] = [];
-let currentUser;
-
+export let currentUser: User = {username: "NOLOGIN", password: "NOLOGIN", balance: 0};
 const loginButton = document.getElementById("login") as HTMLButtonElement;
 const signupButton = document.getElementById("signup") as HTMLButtonElement;
+const bjButton = document.getElementById("BlackjackButton") as HTMLButtonElement;
+const csButton = document.getElementById("CaseSimButton") as HTMLButtonElement;
+const usernameInput = document.getElementById("username") as HTMLInputElement;
+const passwordInput = document.getElementById("password") as HTMLInputElement;
+const bjBetInput = document.getElementById("bjBet") as HTMLInputElement;
+const loginPage = document.getElementById("loginPage") as HTMLDivElement;
+const offcanvasInstance = bootstrap.Offcanvas.getOrCreateInstance(loginPage) as bootstrap.Offcanvas;
+const loginTitle = document.getElementById("loginTitle") as HTMLHeadingElement;
+const submitButton = document.getElementById("loginButton") as HTMLButtonElement;
+const loginError = document.getElementById("loginReturn") as HTMLDivElement;
+const loginSuccess = document.getElementById("loginSuccess") as HTMLDivElement;
+const userInfo = document.getElementById("userInfo") as HTMLSpanElement;
+
+
+function userLoggedInCheckForGames() {
+    if (currentUser.username == "NOLOGIN") {
+        bjButton.disabled = true;
+        csButton.disabled = true;
+    }
+    else {
+        bjButton.disabled = false;
+        csButton.disabled = false;
+    }
+}
+userLoggedInCheckForGames();
 
 async function getData(link: string): Promise<User[]> {
     let users: User[] = [];
@@ -33,18 +57,19 @@ catch (e: any) {
 
 loginButton.addEventListener("click", () => {
     if (loginButton.textContent == "Kilépés") {
-        currentUser = null;
+        currentUser = {username: "NOLOGIN", password: "NOLOGIN", balance: 0};
+        userLoggedInCheckForGames();
         document.getElementById("userInfo")!.textContent = "Jelentkezz be!";
         signupButton.classList.remove("hide");
-        document.getElementById("loginSuccess")!.textContent = "Sikeres kijelentkezés";
+        loginSuccess.textContent = "Sikeres kijelentkezés";
         loginButton.textContent = "Belépés";
     }
-    document.getElementById("loginTitle")!.textContent = "Belépés";
-    document.getElementById("loginButton")!.textContent = "Belépés";
+    loginTitle.textContent = "Belépés";
+    submitButton.textContent = "Belépés";
 });
 signupButton.addEventListener("click", () => {
-    document.getElementById("loginTitle")!.textContent = "Regisztráció";
-    document.getElementById("loginButton")!.textContent = "Regisztráció";
+    loginTitle.textContent = "Regisztráció";
+    submitButton.textContent = "Regisztráció";
 });
 
 document.getElementById("loginForm")?.addEventListener("submit", async (e: SubmitEvent) => {
@@ -53,26 +78,31 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e: Submi
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries()) as FormValues;
     console.log('Form submitted with:', data);
-    if (document.getElementById("loginTitle")!.textContent == "Belépés") {
+    if (loginTitle.textContent == "Belépés") {
         for (const user of userList) {
             if (user.username == data.username && user.password == data.password) {
                 currentUser = user;
-                document.getElementById("loginReturn")!.textContent = "";
-                document.getElementById("loginSuccess")!.textContent = "Sikeres bejelentkezés";
+                loginError.textContent = "";
+                loginSuccess.textContent = "Sikeres bejelentkezés";
+                usernameInput.value = "";
+                passwordInput.value = "";
                 document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`
+                userLoggedInCheckForGames();
+                offcanvasInstance.hide();
                 signupButton.classList.add("hide");
                 loginButton.textContent = "Kilépés";
+                break;
             }
             else {
-                document.getElementById("loginReturn")!.textContent = "Sikertelen bejelentkezés";
+                loginError.textContent = "Sikertelen bejelentkezés";
             }
         }
     }
     else {
         let canSignUp = true;
         for (const user of userList) {
-            if (user.username == data.username) {
-                document.getElementById("loginReturn")!.textContent = "Ilyen felhasználó már létezik!";
+            if (user.username == data.username || data.username == "NOLOGIN") {
+                loginError.textContent = "Ilyen felhasználó már létezik!";
                 canSignUp = false;
             }
         }
@@ -87,7 +117,10 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e: Submi
                 });
                 const result = await response.json();
                 console.log("Success: ", result)
-                document.getElementById("loginSuccess")!.textContent = "Sikeres regisztráció!";
+                loginSuccess.textContent = "Sikeres regisztráció!";
+                usernameInput.value = "";
+                passwordInput.value = "";
+                offcanvasInstance.hide();
                 userList = await getData(link);
             }
             catch (e: any) {
@@ -97,15 +130,13 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e: Submi
     }
 })
 document.querySelector("input")?.addEventListener("invalid", () => {
-    document.getElementById("loginReturn")!.textContent = "Nem lehet túl rövid vagy üres egyik adatod sem!";
+    loginError.textContent = "Nem lehet túl rövid vagy üres egyik adatod sem!";
 })
 document.getElementById("loginClose")?.addEventListener("click", () => {
-    document.getElementById("loginReturn")!.textContent = "";
-    document.getElementById("loginSuccess")!.textContent = "";
-    const un = document.getElementById("username") as HTMLInputElement;
-    const pw = document.getElementById("password") as HTMLInputElement;
-    un.value = "";
-    pw.value = "";
+    loginError.textContent = "";
+    loginSuccess.textContent = "";
+    usernameInput.value = "";
+    passwordInput.value = "";
 })
 
 document.addEventListener("DOMContentLoaded", () => {
