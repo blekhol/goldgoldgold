@@ -16,11 +16,67 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mynavbar">
-                <button class="btn btn-primary me-2" id="login" data-bs-toggle="offcanvas" data-bs-target="#loginPage">Belépés</button>
-                <button class="btn btn-primary" id="signup" data-bs-toggle="offcanvas" data-bs-target="#loginPage">Regisztráció</button>
+                <button class="btn btn-primary me-2" id="login" data-bs-toggle="offcanvas"
+                    data-bs-target="#loginPage">Belépés</button>
+                <button class="btn btn-primary" id="signup" data-bs-toggle="offcanvas"
+                    data-bs-target="#loginPage">Regisztráció</button>
                 <span class="navbar-text" id="userInfo">Jelentkezz be!</span>
             </div>
 
+
+            <!--BEFIZETÉS-->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#BefizetesModal">Befizetés</button>
+
+            <div class="modal fade" id="BefizetesModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Pénz befizetése</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            Minimum feltöltés összege: 5.000 Ft
+                            <!--OPCIÓK-->
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radio1" name="befizetesOsszegek"
+                                    value="5000" checked>
+                                <label class="form-check-label" for="radio1">5.000 Ft</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radio2" name="befizetesOsszegek"
+                                    value="7500">
+                                <label class="form-check-label" for="radio2">7.500 Ft</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radio3" name="befizetesOsszegek"
+                                    value="10000">
+                                <label class="form-check-label" for="radio3">10.000 Ft</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radio4" name="befizetesOsszegek"
+                                    value="15000">
+                                <label class="form-check-label" for="radio4">15.000 Ft</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radio5" name="befizetesOsszegek"
+                                    value="20000">
+                                <label class="form-check-label" for="radio5">20.000 Ft</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="radio6" name="befizetesOsszegek"
+                                    value="50000">
+                                <label class="form-check-label" for="radio6">50.000 Ft</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="BefizetesBtn" type="button" class="btn btn-success"
+                                data-bs-dismiss="modal">Fizetés</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
     <!--login-->
@@ -33,70 +89,25 @@
             <form>
                 <div class="mb-3">
                     <label for="username" class="form-label">Felhasználónév</label>
-                    <input type="text" name="username" id="username" class="form-control" required minlength="3"> 
+                    <input type="text" name="username" id="username" class="form-control" required minlength="3">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
-                    <input type="password" name="password" id="password" class="form-control" required minlength="5"> 
+                    <input type="password" name="password" id="password" class="form-control" required minlength="5">
                 </div>
                 <div class="form-text" id="loginReturn"></div>
                 <div class="form text" id="loginSuccess"></div>
-                <button class="btn btn-secondary" id="loginButton" type="submit">Belépés</button>    
+                <button class="btn btn-secondary" id="loginButton" type="submit">Belépés</button>
             </form>
         </div>
     </div>
 
+
+
     <div class="container">
 
         <br>
-        <!--BEFIZETÉS-->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#BefizetesModal">Befizetés</button>
 
-        <div class="modal fade" id="BefizetesModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Pénz befizetése</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        Minimum feltöltés összege: 5.000 Ft
-                        <!--OPCIÓK-->
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1"
-                                checked>
-                            <label class="form-check-label" for="radio1">5.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">
-                            <label class="form-check-label" for="radio2">7.500 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio3" name="optradio" value="option3">
-                            <label class="form-check-label" for="radio3">10.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio4" name="optradio" value="option4">
-                            <label class="form-check-label" for="radio4">15.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio5" name="optradio" value="option5">
-                            <label class="form-check-label" for="radio5">20.000 Ft</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio6" name="optradio" value="option6">
-                            <label class="form-check-label" for="radio6">50.000 Ft</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="BefizetesBtn" type="button" class="btn btn-success"
-                            data-bs-dismiss="modal">Fizetés</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
     </div>
     <script src="./src/main.ts" type="module"></script>

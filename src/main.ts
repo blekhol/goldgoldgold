@@ -5,7 +5,7 @@ import { type User, type FormValues } from './types.ts';
 
 const link = "https://retoolapi.dev/U2ra8a/data";
 let userList: User[] = [];
-let currentUser;
+let currentUser: User | null = null;
 
 const loginButton = document.getElementById("login") as HTMLButtonElement;
 const signupButton = document.getElementById("signup") as HTMLButtonElement;
@@ -18,7 +18,7 @@ async function getData(link: string): Promise<User[]> {
     }
     const data = await response.json();
     for (const element of data) {
-        users.push({ username: element.username, password: element.password, balance: element.balance })
+        users.push({id: element.id, username: element.username, password: element.password, balance: element.balance })
     }
     return users;
 }
@@ -54,18 +54,18 @@ document.querySelector("form")?.addEventListener("submit", async (e: SubmitEvent
     const data = Object.fromEntries(formData.entries()) as FormValues;
     console.log('Form submitted with:', data);
     if (document.getElementById("loginTitle")!.textContent == "Belépés") {
-        for (const user of userList) {
-            if (user.username == data.username && user.password == data.password) {
-                currentUser = user;
-                document.getElementById("loginReturn")!.textContent = "";
-                document.getElementById("loginSuccess")!.textContent = "Sikeres bejelentkezés";
-                document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`
-                signupButton.classList.add("hide");
-                loginButton.textContent = "Kilépés";
-            }
-            else {
-                document.getElementById("loginReturn")!.textContent = "Sikertelen bejelentkezés";
-            }
+        const foundUser = userList.find(user => user.username === data.username && user.password === data.password);
+
+        if (foundUser) {
+            currentUser = foundUser;
+            document.getElementById("loginReturn")!.textContent = "";
+            document.getElementById("loginSuccess")!.textContent = "Sikeres bejelentkezés";
+            document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
+            signupButton.classList.add("hide");
+            loginButton.textContent = "Kilépés";
+        } else {
+            document.getElementById("loginReturn")!.textContent = "Sikertelen bejelentkezés";
+            document.getElementById("loginSuccess")!.textContent = "";
         }
     }
     else {
@@ -108,6 +108,56 @@ document.getElementById("loginClose")?.addEventListener("click", () => {
     pw.value = "";
 })
 
-document.addEventListener("DOMContentLoaded", () => {
-    // document.getElementById("BefizetesBtn")?.addEventListener("click", ()=)
-})
+document.getElementById("BefizetesBtn")?.addEventListener("click", BefizetesBtnPress);
+
+function BefizetesBtnPress() {
+    const selectedRadio = document.querySelector('input[name="befizetesOsszegek"]:checked') as HTMLInputElement;
+    
+    if (selectedRadio) {
+        Befizetes(Number(selectedRadio.value));
+    } else {
+       throw new Error("Nem lett kiválasztva egyik sem");
+    }
+}
+
+async function Befizetes(amount: number) {
+    if (!currentUser) {
+        console.log("Nincs bejelentkezve senki");
+        return; 
+    }
+
+    const updatedBalance = currentUser.balance + amount;
+
+    const updatedUserPayload: User = {
+        id: currentUser.id,
+        username: currentUser.username,
+        password: currentUser.password,
+        balance: updatedBalance
+    };
+
+    try {
+        const response = await fetch(`${link}/${currentUser.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedUserPayload)
+        });
+
+        if (!response.ok) {
+            throw new Error("Sikertelen egyenleg frissítés");
+        }
+
+        const result = await response.json();
+        console.log("Sikeres feltöltés:", result);
+
+        currentUser.balance = updatedBalance;
+        
+        document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
+        
+        userList = await getData(link);
+
+    } catch (error) {
+        throw new Error("Hiba történt a fizetés során");
+    }
+}
