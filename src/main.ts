@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import './style.css';
-import { parseAst } from 'vite';
 
 interface User {
     username: string;
@@ -98,6 +97,8 @@ document.querySelector("form")?.addEventListener("submit", async (e: SubmitEvent
                 });
                 const result = await response.json();
                 console.log("Success: ", result)
+                document.getElementById("loginSuccess")!.textContent = "Sikeres regisztráció!";
+                userList = await getData(link);
             }
             catch (e: any) {
                 console.error("Error: ", e)
