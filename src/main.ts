@@ -21,7 +21,6 @@ const loginError = document.getElementById("loginReturn") as HTMLDivElement;
 const loginSuccess = document.getElementById("loginSuccess") as HTMLDivElement;
 const userInfo = document.getElementById("userInfo") as HTMLSpanElement;
 
-
 function userLoggedInCheckForGames() {
     if (currentUser.username == "NOLOGIN") {
         bjButton.disabled = true;
@@ -59,7 +58,7 @@ loginButton.addEventListener("click", () => {
     if (loginButton.textContent == "Kilépés") {
         currentUser = {username: "NOLOGIN", password: "NOLOGIN", balance: 0};
         userLoggedInCheckForGames();
-        document.getElementById("userInfo")!.textContent = "Jelentkezz be!";
+        userInfo.textContent = "Jelentkezz be!";
         signupButton.classList.remove("hide");
         loginSuccess.textContent = "Sikeres kijelentkezés";
         loginButton.textContent = "Belépés";
@@ -86,7 +85,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e: Submi
                 loginSuccess.textContent = "Sikeres bejelentkezés";
                 usernameInput.value = "";
                 passwordInput.value = "";
-                document.getElementById("userInfo")!.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`
+                userInfo.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`
                 userLoggedInCheckForGames();
                 offcanvasInstance.hide();
                 signupButton.classList.add("hide");
