@@ -58,7 +58,6 @@
             data-bs-target="#BefizetesModal">Befizetés</button>
 
         <div class="row g-4">
-            <!-- Blackjack Card Column -->
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <button type="button" class="btn text-white shadow" id="BlackjackButton" data-bs-toggle="modal"
                     data-bs-target="#BlackjackModal"
@@ -67,12 +66,10 @@
                 </button>
             </div>
 
-            <!-- Dynamic Case Multi-Simulator Lobby Container -->
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="card bg-dark text-white p-3 shadow h-100">
                     <h3 class="text-center mb-3">LÁDA SIMULATOR</h3>
                     <div id="caseLobbyGrid" class="row row-cols-1 row-cols-sm-3 g-2">
-                        <!-- Rendered and appended dynamically from AVAILABLE_CASES via TS -->
                     </div>
                 </div>
             </div>
@@ -169,7 +166,6 @@
                         id="caseBezaras"></button>
                 </div>
                 <div class="modal-body text-center position-relative overflow-hidden">
-                    <!-- 🌟 NEW: Full-screen Big Winner Item Reveal Overlay -->
                     <div id="bigPreviewOverlay">
                         <div id="bigPreviewCard" class="big-preview-card text-center">
                             <h2 class="text-uppercase fw-bold mb-1" id="bigWinRarityText">KAPTAD!</h2>
@@ -181,11 +177,9 @@
                         </div>
                     </div>
 
-                    <!-- Rest of your existing modal body contents -->
                     <p class="fs-5">Ár: <span id="modalCasePrice" class="text-warning fw-bold">0</span> Ft | Próbáld ki
                         a szerencséd!</p>
 
-                    <!-- ROULETTE CONTAINER -->
                     <div class="roulette-wrapper position-relative my-4 mx-auto border border-secondary rounded overflow-hidden bg-black"
                         style="width: 100%; max-width: 700px; height: 130px;">
                         <div class="selector-line position-absolute top-0 bottom-0 bg-danger"
@@ -210,7 +204,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./src/main.ts" type="module"></script>
 </body>
