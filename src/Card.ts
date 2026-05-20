@@ -13,50 +13,33 @@ export class Card {
     }
 }
 
-export class Cards {
-    cards: Card[] = [];
-    constructor() { }
-}
-
-export function generateCard(cardList: Card[], genList: string[]) {
-    let canGen = true;
-    let name: string;
-    let bj_value: number = 0;
-    let poker_value: number = 0;
-    let face: string = "";
-    do {
-        canGen = true;
-        let randomNumber = Math.floor(Math.random() * 52) + 1;
-        name = genList[randomNumber];
-        for (const card of cardList) {
-            if (card.name == name) {
-                canGen = false;
+export function createShuffledDeck(): Card[] {
+    const suits = ['C', 'D', 'H', 'S'];
+    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
+    let deck: Card[] = [];
+    for (const suit of suits) {
+        for (const rank of ranks) {
+            const name = `${rank}${suit}`;
+            let bj_value = 0;
+            let poker_value = 0;
+            if (['2', '3', '4', '5', '6', '7', '8', '9'].includes(rank)) {
+                bj_value = parseInt(rank);
+                poker_value = parseInt(rank);
+            } else if (['T', 'J', 'Q', 'K'].includes(rank)) {
+                bj_value = 10;
+                poker_value = rank === 'T' ? 10 : rank === 'J' ? 11 : rank === 'Q' ? 12 : 13;
+            } else if (rank === 'A') {
+                bj_value = 11;
+                poker_value = 1;
             }
+            let face = suit === 'C' ? 'club' : suit === 'D' ? 'diamond' : suit === 'H' ? 'heart' : 'spade';
+            deck.push(new Card(`./src/Images/${name}.svg`, bj_value, poker_value, face, name));
         }
-    } while (!canGen);
-    switch (name[0]) {
-        case "2": bj_value = 2; poker_value = 2; break;
-        case "3": bj_value = 3; poker_value = 3; break;
-        case "4": bj_value = 4; poker_value = 4; break;
-        case "5": bj_value = 5; poker_value = 5; break;
-        case "6": bj_value = 6; poker_value = 6; break;
-        case "7": bj_value = 7; poker_value = 7; break;
-        case "8": bj_value = 8; poker_value = 8; break;
-        case "9": bj_value = 9; poker_value = 9; break;
-        case "A": bj_value = 11; poker_value = 1; break;
-        case "J": bj_value = 10; poker_value = 11; break;
-        case "K": bj_value = 10; poker_value = 13; break;
-        case "Q": bj_value = 10; poker_value = 12; break;
-        case "T": bj_value = 10; poker_value = 10; break;
-        default: break;
     }
-    switch (name[1]) {
-        case "C": face = "club"; break;
-        case "D": face = "diamond"; break;
-        case "H": face = "heart"; break;
-        case "S": face = "spade"; break;
-        default: break;
+    // Fisher-Yates Shuffle Algorithm
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
     }
-    let newCard = new Card(`./Images/${name}.svg`, bj_value, poker_value, face, name);
-    return newCard;
+    return deck;
 }

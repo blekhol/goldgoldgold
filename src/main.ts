@@ -297,7 +297,7 @@ document.getElementById("bjForm")?.addEventListener("submit", (e) => {
     const bet = bjBetInput.value;
     console.log(bet);
     if (currentUser) {
-        blackjackGame(bet, currentUser);
+        blackjackGame(Number.parseInt(bet), currentUser);
     }
 })
 
