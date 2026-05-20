@@ -11,6 +11,7 @@ let bet2 = 0;
 const link = "https://retoolapi.dev/U2ra8a/data";
 const userInfo = document.getElementById("userInfo") as HTMLSpanElement;
 const bjPBet = document.getElementById("bjPBet") as HTMLParagraphElement;
+const bjPHand = document.getElementById("bjPHand") as HTMLParagraphElement;
 const bjFormDiv = document.getElementById("bjFormDiv") as HTMLDivElement;
 const bjCanvas = document.getElementById("bjCanvas") as HTMLCanvasElement;
 let bjHit = document.getElementById("bjHit") as HTMLButtonElement;
@@ -22,12 +23,14 @@ const ctx = bjCanvas.getContext("2d") as CanvasRenderingContext2D;
 export function blackjackGame(bet: number, currentUser: User) {
     playerHand.length = 0;
     dealerHand.length = 0;
-    // playerHand2.length = 0;
-    // playerHand2Active = false;
+    playerHand2.length = 0;
+    playerHand2Active = false;
+    bet2 = 0;
     gameStatus = "";
     currentDeck = createShuffledDeck();
     bjFormDiv.classList.add("hide");
     bjPBet.textContent = "Jelenlegi tét: " + bet.toString() + " Ft";
+    bjPHand.textContent = "Kéz: 1";
     currentUser.balance -= bet;
     userInfo.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
     fetch(`${link}/${currentUser.id}`, {
@@ -64,6 +67,9 @@ function drawText() {
     }
     else if (gameStatus == "tie") {
         ctx.fillText("Tied game", 300, 300);
+    }
+    if (playerHand2Active) {
+        ctx.fillText(sum(playerHand2).toString(), 490, 370);
     }
 }
 
@@ -184,6 +190,7 @@ function playerPush(bet: number, currentUser: User) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currentUser)
     }).catch(err => console.error("Balance sync failed", err));
+    bjFormDiv.classList.remove("hide");
 }
 
 function playerLose() {
@@ -192,8 +199,10 @@ function playerLose() {
     bjFormDiv.classList.remove("hide");
 }
 
+
 function playersGame(bet: number, currentUser: User) {
     let firstRound = true;
+    let activeHand = 1;
     let hitClone = bjHit.cloneNode(true) as HTMLButtonElement;
     bjHit.replaceWith(hitClone);
     bjHit = hitClone;
@@ -212,43 +221,64 @@ function playersGame(bet: number, currentUser: User) {
     hitClone.addEventListener("click", () => {
         firstRound = false;
         doubleClone.disabled = true;
+        splitClone.disabled = true;
         let newCard = currentDeck.pop()!;
-        playerHand.push(newCard);
-        // if (playerHand2Active) {
-        //     let newCard = generateCard(allCardsDrawn, generateablesList);
-        //     allCardsDrawn.push(newCard);
-        //     playerHand2.push(newCard);
-        // }   
-        if (checkPlayerBlackjack(playerHand)) {
-            hitClone.disabled = true;
-            passClone.disabled = true;
-            dealersGame(bet, currentUser);
+        if (activeHand == 1) {
+            playerHand.push(newCard);
+            if (checkPlayerBust(playerHand) || sum(playerHand) === 21) {
+                if (playerHand2Active) {
+                    activeHand = 2;
+                    bjPHand.textContent = "Kéz: 2";
+                    hitClone.disabled = false;
+                    passClone.disabled = false;
+                }
+                else {
+                    hitClone.disabled = true;
+                    passClone.disabled = true;
+                    if (checkPlayerBust(playerHand)) {
+                        playerLose();
+                    }
+                    else {
+                        dealersGame(bet, currentUser);
+                    }
+                }
+            }
         }
-        else if (checkPlayerBust(playerHand)) {
-            playerLose();
-            hitClone.disabled = true;
-            passClone.disabled = true;
+        else if (activeHand == 2) {
+            playerHand2.push(newCard);
+            if (checkPlayerBust(playerHand2) || sum(playerHand2) === 21) {
+                hitClone.disabled = true;
+                passClone.disabled = true;
+                if (checkPlayerBust(playerHand) && checkPlayerBust(playerHand2)) {
+                    playerLose();
+                }
+                else {
+                    dealersGame(bet, currentUser);
+                }
+            }
         }
         draw();
     });
-    // if (playerHand[0].name[0] == playerHand[1].name[0]) {
-    //     bjSplit.disabled = false;
-    //     bjSplit.addEventListener("click", () => {
-    //         playerHand2Active = true;
-    //         playerHand2.push(playerHand[1]);
-    //         playerHand.pop();
-    //         draw();
-    //         bet2 = bet;
-    //         currentUser.balance -= bet2;
-    //         userInfo.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
-    //         fetch(`${link}/${currentUser.id}`, {
-    //             method: "PUT",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify(currentUser)
-    //         }).catch(err => console.error("Balance sync failed", err));
-    //         bjSplit.disabled = true;
-    //     })
-    // }
+    if (playerHand[0].blackjack_value == playerHand[1].blackjack_value) {
+        splitClone.disabled = false;
+        splitClone.addEventListener("click", () => {
+            playerHand2Active = true;
+            bet2 = bet;
+            currentUser.balance -= bet2;
+            userInfo.textContent = `Felhasználónév: ${currentUser.username}; Pénz: ${currentUser.balance}Ft`;
+            fetch(`${link}/${currentUser.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(currentUser)
+            }).catch(err => console.error("Balance sync failed", err));
+            playerHand2.push(playerHand.pop()!);
+            playerHand.push(currentDeck.pop()!);
+            playerHand2.push(currentDeck.pop()!);
+            splitClone.disabled = true;
+            doubleClone.disabled = true;
+            draw();
+        })
+    }
     if (firstRound) {
         doubleClone.disabled = false;
         doubleClone.addEventListener("click", () => {
@@ -274,10 +304,20 @@ function playersGame(bet: number, currentUser: User) {
         })
     }
     passClone.addEventListener("click", () => {
-        hitClone.disabled = true;
+        firstRound = false;
         passClone.disabled = true;
         doubleClone.disabled = true;
-        dealersGame(bet, currentUser);
+        if (activeHand == 1 && playerHand2Active) {
+            activeHand = 2;
+            bjPBet.textContent = "Kéz: 2";
+            hitClone.disabled = false;
+            passClone.disabled = false;
+        }
+        else {
+            hitClone.disabled = true;
+            passClone.disabled = true;
+            dealersGame(bet, currentUser);
+        }
     })
 }
 
@@ -293,16 +333,39 @@ async function dealersGame(finalBet: number, currentUser: User) {
         draw();
         await delay(800);
     }
-    if (sum(dealerHand) > 21) {
-        playerWin(finalBet, currentUser);
+    const resolveHand = (hand: Card[], currentBet: number) => {
+        let handSum = sum(hand);
+        let dealerSum = sum(dealerHand);
+
+        if (checkPlayerBust(hand)) {
+            playerLose();
+        }
+        else if (dealerSum > 21 || handSum > dealerSum) {
+            playerWin(currentBet, currentUser);
+        }
+        else if (handSum < dealerSum) {
+            playerLose();
+        }
+        else {
+            playerPush(currentBet, currentUser);
+        }
     }
-    else if (sum(dealerHand) > sum(playerHand)) {
-        playerLose();
+    resolveHand(playerHand, finalBet);
+    if (playerHand2Active) {
+        await delay(500);
+        resolveHand(playerHand2, bet2);
     }
-    else if (sum(dealerHand) < sum(playerHand)) {
-        playerWin(finalBet, currentUser);
-    }
-    else if (sum(dealerHand) == sum(playerHand)) {
-        playerPush(finalBet, currentUser);
-    }
+    draw();
+    // if (sum(dealerHand) > 21) {
+    //     playerWin(finalBet, currentUser);
+    // }
+    // else if (sum(dealerHand) > sum(playerHand)) {
+    //     playerLose();
+    // }
+    // else if (sum(dealerHand) < sum(playerHand)) {
+    //     playerWin(finalBet, currentUser);
+    // }
+    // else if (sum(dealerHand) == sum(playerHand)) {
+    //     playerPush(finalBet, currentUser);
+    // }
 }
