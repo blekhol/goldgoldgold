@@ -69,7 +69,7 @@ function lowBalanceAlertCheck() {
     }
 }
 
-async function handleBalanceUpdate(newBalance: number) {
+export async function handleBalanceUpdate(newBalance: number) {
     if (!currentUser) return;
 
     const updatedUserPayload: User = {
@@ -197,7 +197,10 @@ document.getElementById("bjForm")?.addEventListener("submit", (e) => {
 document.getElementById("BefizetesBtn")?.addEventListener("click", () => {
     const selectedRadio = document.querySelector('input[name="befizetesOsszegek"]:checked') as HTMLInputElement;
     if (selectedRadio) {
-        if(!currentUser) return;
+        if(!currentUser) {
+            alert("Befizetéshez be kell jelentkezni");
+            return;
+        }
         const newBalance = currentUser.balance + Number(selectedRadio.value);
         handleBalanceUpdate(newBalance);
     } else {

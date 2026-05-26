@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <!--navbar-->
     <nav class="navbar navbar-expand-sm bg-light ">
         <div class="container-fluid">
             <a href="index.html" class="navbar-brand"><img style="height: 128px; width: 128px;"
@@ -22,11 +21,13 @@
                 <button class="btn btn-primary" id="signup" data-bs-toggle="offcanvas"
                     data-bs-target="#loginPage">Regisztráció</button>
                 <span class="navbar-text" id="userInfo">Jelentkezz be!</span>
+                
+                <button type="button" class="btn btn-primary ms-3" data-bs-toggle="modal"
+                    data-bs-target="#BefizetesModal">Befizetés</button>
             </div>
         </div>
     </nav>
 
-    <!--login-->
     <div class="offcanvas offcanvas-start" id="loginPage">
         <div class="offcanvas-header">
             <h1 class="offcanvas-title" id="loginTitle">Belépés</h1>
@@ -49,13 +50,10 @@
         </div>
     </div>
 
-    <!-- Main Game Lobby -->
     <div class="container mt-4">
         <div class="alert alert-danger hide" id="balanceAlert">
             <strong>Alacsony pénzkeret!</strong> Tölts fel pénzösszeget hogy játszhass!
         </div>
-        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-            data-bs-target="#BefizetesModal">Befizetés</button>
 
         <div class="row g-4">
             <div class="col-lg-6 col-md-12 col-sm-12">
@@ -76,7 +74,6 @@
         </div>
     </div>
 
-    <!-- Blackjack Modal -->
     <div class="modal fade" id="BlackjackModal">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -112,7 +109,6 @@
         </div>
     </div>
 
-    <!-- Befizetes Modal -->
     <div class="modal fade" id="BefizetesModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -156,12 +152,11 @@
         </div>
     </div>
 
-    <!-- Case Opening Modal Structure -->
     <div class="modal fade" id="CaseModal" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header border-secondary">
-                    <h4 class="modal-title" id="modalCaseName">Láda Nyitás 📦</h4>
+                    <h4 class="modal-title" id="modalCaseName">Láda Nyitás</h4>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         id="caseBezaras"></button>
                 </div>

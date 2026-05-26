@@ -166,8 +166,8 @@ function openCaseSelectionModal(caseData: CaseConfig) {
     modalCasePrice.textContent = caseData.price.toString();
     modalDropList.innerHTML = "";
     
-    const caseEredmeny = document.getElementById("caseEredmeny");
-    if(caseEredmeny) caseEredmeny.textContent = "";
+    const caseEredmeny = document.getElementById("caseEredmeny")!;
+    caseEredmeny.textContent = "";
     caseTrack.innerHTML = "";
 
     caseData.drops.forEach((drop) => {
